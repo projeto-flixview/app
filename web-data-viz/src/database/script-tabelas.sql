@@ -17,13 +17,14 @@ CREATE TABLE usuario (
     nome VARCHAR(100) NOT NULL, 
     email VARCHAR(150) NULL, 
     senha VARCHAR(50) NULL, 
-    logCadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(50),
+    modified_at TIMESTAMP,
+    modified_by VARCHAR(50),
     idCargo CHAR(8) NOT NULL,
-
     CONSTRAINT fk_cargo_usuario
         FOREIGN KEY (idCargo)
         REFERENCES cargo(idCargo)
-
 );
 
 CREATE TABLE titulo (
@@ -31,12 +32,21 @@ CREATE TABLE titulo (
     title VARCHAR(200),
     original_title VARCHAR(200),
     original_language VARCHAR(200),
+    director VARCHAR(50),
+    cast TEXT,
+    duration INT,
+    episodes INT,
+    temps INT,
     overview TEXT,
     popularity DECIMAL(10,2),
-    poster_path VARCHAR(300),
+    poster_path VARCHAR(300),    
     release_date DATE,
     vote_average DECIMAL(3,1),
-    vote_count INT
+    vote_count INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(50),
+    modified_at TIMESTAMP,
+    modified_by VARCHAR(50)
 );
 
 CREATE TABLE genero (
@@ -49,14 +59,15 @@ CREATE TABLE review (
     author VARCHAR(100),
     content VARCHAR(600),
     rating VARCHAR(45),
-    created_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(50),
+    modified_at TIMESTAMP,
+    modified_by VARCHAR(50),
     fkUsuario INT,
     fkTitulo INT,
-
     CONSTRAINT fk_review_usuario
         FOREIGN KEY (fkUsuario)
         REFERENCES usuario(idUsuario),
-
     CONSTRAINT fk_review_titulo
         FOREIGN KEY (fkTitulo)
         REFERENCES titulo(idTitulo)
@@ -65,14 +76,47 @@ CREATE TABLE review (
 CREATE TABLE titulo_genero (
     fkTitulo INT,
     fkGenero INT,
-
     PRIMARY KEY (fkTitulo, fkGenero),
-
     CONSTRAINT fk_titulo_genero_titulo
         FOREIGN KEY (fkTitulo)
         REFERENCES titulo(idTitulo),
-
     CONSTRAINT fk_titulo_genero_genero
         FOREIGN KEY (fkGenero)
         REFERENCES genero(idGenero)
 );
+
+-- opção 1
+CREATE TABLE logsJavaApache (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    msg TEXT,
+    statusLog VARCHAR(25),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(50)
+);
+
+CREATE TABLE logsJavaJdbc (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    msg TEXT,
+    statusLog VARCHAR(25),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(50)
+);
+
+CREATE TABLE notifySlack (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    msg TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(50),
+    sent_in VARCHAR(50)
+);
+
+-- opção 2
+CREATE TABLE log_Notify (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    msg TEXT,
+    statusLog VARCHAR(25),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(50),
+    sent_in VARCHAR(50)
+    );
+
