@@ -27,6 +27,17 @@ CREATE TABLE usuario (
         REFERENCES cargo(idCargo)
 );
 
+CREATE TABLE configSlack (
+	idConfig INT PRIMARY KEY AUTO_INCREMENT,
+    slack BOOL,
+    telegram BOOL,
+    teams BOOL,
+    javaMail BOOL,
+    idUser INT,
+    CONSTRAINT fk_usuario_configSlack
+    FOREIGN KEY (idUser) REFERENCES usuario(idUsuario)
+);
+
 CREATE TABLE titulo (
     idTitulo INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(200),
@@ -36,7 +47,7 @@ CREATE TABLE titulo (
     cast TEXT,
     duration INT,
     episodes INT,
-    temps INT,
+    seasons INT,
     overview TEXT,
     popularity DECIMAL(10,2),
     poster_path VARCHAR(300),    
@@ -85,38 +96,27 @@ CREATE TABLE titulo_genero (
         REFERENCES genero(idGenero)
 );
 
--- opção 1
-CREATE TABLE logsJavaApache (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-    msg TEXT,
-    statusLog VARCHAR(25),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(50)
+CREATE TABLE tipoLog (
+	idLog INT PRIMARY KEY auto_increment,
+    tipo VARCHAR(25)
 );
 
-CREATE TABLE logsJavaJdbc (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-    msg TEXT,
-    statusLog VARCHAR(25),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(50)
-);
+INSERT INTO tipoLog (tipo) VALUES
+	('Sucesso'),
+	('Leitura'),
+	('Inserção'),
+	('Erro'),
+	('Info');
 
-CREATE TABLE notifySlack (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-    msg TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(50),
-    sent_in VARCHAR(50)
-);
-
--- opção 2
-CREATE TABLE log_Notify (
+CREATE TABLE log_Java (
 	id INT PRIMARY KEY AUTO_INCREMENT,
     msg TEXT,
     statusLog VARCHAR(25),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by VARCHAR(50),
-    sent_in VARCHAR(50)
-    );
+    source VARCHAR(50),
+    typeLog INT,
+    CONSTRAINT fk_log
+    FOREIGN KEY (typeLog) REFERENCES tipoLog(idLog)
+);
 
