@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS flixview;
-
+-- DROP DATABASE flixview;
 USE flixview;
 
 CREATE TABLE cargo (
@@ -64,6 +64,35 @@ CREATE TABLE genero (
     idGenero INT PRIMARY KEY,
     nome VARCHAR(100)
 );
+
+INSERT INTO genero (idGenero, nome) VALUES
+(1, 'Thriller'),
+(2, 'Drama'),
+(3, 'Crime'),
+(4, 'Romance'),
+(5, 'Fantasia'),
+(6, 'Animação'),
+(7, 'Família'),
+(8, 'Ficção científica'),
+(9, 'Aventura'),
+(10, 'Ação'),
+(11, 'Comédia'),
+(12, 'Terror'),
+(13, 'Música'),
+(14, 'Mistério'),
+(15, 'Guerra'),
+(16, 'Faroeste'),
+(17, 'História'),
+(18, 'Documentário'),
+(19, 'Cinema TV'),
+(20, 'Action & Adventure'),
+(21, 'Reality'),
+(22, 'Kids'),
+(23, 'Sci-Fi & Fantasy'),
+(24, 'War & Politics'),
+(25, 'Soap'),
+(26, '10749'),
+(27, 'Talk');
 
 CREATE TABLE review (
     idReview INT PRIMARY KEY AUTO_INCREMENT,
