@@ -1,0 +1,67 @@
+services:
+  db:
+    image: nicolasaug22/meu_bd:v1
+    pull_policy: always
+    container_name: flixview-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD:-2507}"
+      MYSQL_DATABASE: "${DB_DATABASE:-flixview}"
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h 127.0.0.1 -uroot -p\"$${MYSQL_ROOT_PASSWORD}\" --silent"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - flixview-network
+
+  app:
+    image: nicolasaug22/meu_site:v1
+    pull_policy: always
+    container_name: flixview-app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      AMBIENTE_PROCESSO: producao
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8080
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: "${DB_USER:-root}"
+      DB_PASSWORD: "${DB_PASSWORD:-2507}"
+      DB_DATABASE: "${DB_DATABASE:-flixview}"
+      TMDB_API_READ_ACCESS_TOKEN: "${TMDB_API_READ_ACCESS_TOKEN:-}"
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://127.0.0.1:8080/', r => process.exit(r.statusCode < 500 ? 0 : 1)).on('error', () => process.exit(1))"
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks:
+      - flixview-network
+
+volumes:
+  mysql_data:
+
+networks:
+  flixview-network:
+    driver: bridge

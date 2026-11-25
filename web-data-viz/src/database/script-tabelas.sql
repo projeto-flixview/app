@@ -1,4 +1,4 @@
-CREATE DATABASE flixview;
+CREATE DATABASE IF NOT EXISTS flixview;
 
 USE flixview;
 
