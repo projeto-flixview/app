@@ -1,3 +1,0 @@
-FROM mysql:8.0
-
-COPY src/database/script-tabelas.sql /docker-entrypoint-initdb.d/01-script-tabelas.sql
