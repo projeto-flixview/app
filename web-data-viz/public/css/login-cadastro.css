@@ -36,35 +36,14 @@ input:not(.check) {
 
 header {
     width: 100%;
-    min-height: 8vh;
+    height: 8vh;
     display: flex;
     align-items: center;
-    position: relative;
 
     .logo {
         width: 12vw;
         margin-left: 2vw;
         margin-top: 1vh;
-    }
-
-    .back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        margin-left: 2vw;
-        color: var(--cinza-claro);
-        font-family: 'Poppins';
-        text-decoration: none;
-        transition: color 0.2s ease;
-    }
-
-    .back-link:hover {
-        color: white;
-    }
-
-    .back-link span:first-child {
-        font-size: 26px;
-        line-height: 1;
     }
 }
 
@@ -109,49 +88,30 @@ main {
             gap: 2vw;
 
             .acess {
-                border: 0;
-                border-bottom: 2px solid transparent;
+                border:1px solid var(--cor-fundo);
+
                 background-color: var(--cor-fundo);
                 width: 14vw;
                 height: auto;
                 min-height: 56px;
+                
                 color: white;
                 font-family: 'Poppins';
                 font-size: 30px;
                 font-weight: bold;
-                opacity: 0.65;
-                transition: 0.2s ease;
+
+                transition: 0.1s ease;
                 cursor: pointer;
             } 
 
             .acess:hover,
-            .acess.active {
-                border-bottom-color: var(--vermelho-padrao);
-                opacity: 1;
-            }
-        }
-
-        .form-intro {
-            margin-top: 24px;
-            text-align: center;
-
-            h1 {
-                margin: 0;
-                color: white;
-                font-family: 'Poppins';
-                font-size: clamp(24px, 2.4vw, 34px);
-            }
-
-            p {
-                margin: 8px 0 0;
-                color: var(--cinza-claro);
-                font-family: 'Inter';
-                font-size: 15px;
+            .acess.ativo {
+                border-bottom: 2px solid var(--vermelho-padrao);
             }
         }
 
         .section-B {
-            margin-top: clamp(20px, 3vh, 36px);
+            margin-top: clamp(20px, 4vh, 48px);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -160,62 +120,87 @@ main {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                width: 100%;
-            }
-
-            .container-cadastrar {
-                display: grid;
-                grid-template-columns: minmax(0, 1fr);
-                align-items: start;
-                gap: 8px;
-                width: 100%;
-            }
-
-            .field {
-                width: 100%;
-                max-width: none;
-                margin-bottom: 0;
-
-                label {
-                    display: block;
-                    margin: 0 0 4px 8px;
-                    color: white;
-                    font-family: 'Poppins';
-                    font-size: 14px;
-                }
-
-                label span {
-                    color: var(--cinza-claro);
-                    font-size: 13px;
-                }
 
                 .info {
-                    width: 100%;
-                    min-height: 42px;
+                    width: 30vw;
+                    height: auto;
+                    min-height: 40px;
+                    margin-top: 6px;
+                    background-color: var(--cinza-escuro);
                     border: 1px solid var(--cinza-borda);
-                    border-radius: 8px;
-                    background: var(--cinza-escuro);
+                    border-radius: 6px;
                     color: white;
-                    padding: 9px 12px;
-                    font-size: 15px;
-                    font-family: 'Inter';
-                    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+                    padding: 4px 12px;
+                    font-size: 14px;
+                    font-family: 'Poppins';
+                    transition: 0.2s ease;
+                }
+
+                .info:focus {
+                    border-color: var(--vermelho-padrao);
                 }
 
                 .info::placeholder {
                     color: var(--cinza-claro);
                     opacity: 1;
                 }
+            }
+            
+            .rotulo {
+                width: 30vw;
+                margin-top: 16px;
+                color: white;
+                font-family: 'Poppins';
+                font-size: 17px;
+                font-weight: bold;
+            }
+
+            .descricao {
+                width: 30vw;
+                margin: 6px 0 0;
+                color: var(--cinza-claro);
+                font-family: 'Poppins';
+                font-size: 10px;
+            }
+
+            .info:disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+            }
+
+            .container-cadastrar {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                
+                .info {
+                    width: 30vw;
+                    height: auto;
+                    min-height: 40px;
+                    margin-top: 6px;
+                    background-color: var(--cinza-escuro);
+                    border: 1px solid var(--cinza-borda);
+                    border-radius: 6px;
+                    color: white;
+                    padding: 4px 12px;
+                    font-size: 14px;
+                    font-family: 'Poppins';
+                    transition: 0.2s ease;
+                }
 
                 .info:focus {
-                    outline: none;
                     border-color: var(--vermelho-padrao);
-                    box-shadow: 0 0 0 3px rgb(229 9 20 / 18%);
+                }
+
+                .info::placeholder {
+                    color: var(--cinza-claro);
+                    opacity: 1;
                 }
             }
-        }
+            
+            }
 
-        .section-C {
+            .section-C {
                 width: 100%;
                 height: auto;
                 min-height: 100px;
@@ -252,12 +237,12 @@ main {
                     font-family: 'Poppins';
                     font-size: 18px;
                 }
-        }
+            }
 
-        .section-D {
+            .section-D {
                 width: 100%;
                 height: auto;
-                min-height: 0;
+                min-height: 100px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -306,7 +291,10 @@ main {
             }
     }
 
-    
+    .acess:hover,
+    .acess.ativo {
+    border-bottom: 2px solid var(--vermelho-padrao);
+}
 }
     
 }
@@ -323,15 +311,8 @@ main {
     }
 
     header .logo {
-        position: absolute;
         width: 96px;
-        left: 50%;
-        margin-left: 0;
-        transform: translateX(-50%);
-    }
-
-    header .back-link {
-        margin-left: 16px;
+        margin-left: 20px;
     }
 
     main {
@@ -357,10 +338,6 @@ main {
         height: auto;
     }
 
-    main .container .forms .form-intro {
-        margin-top: 18px;
-    }
-
     main .container .forms .nav {
         height: auto;
         gap: 12px;
@@ -383,14 +360,23 @@ main {
         width: 100%;
     }
 
-    main .container .forms .section-B .field {
-        max-width: 100%;
+    main .container .forms .section-B .rotulo,
+    main .container .forms .section-B .erro-campo,
+    main .container .forms .section-B .descricao {
+        width: 100%;
+    }
+
+    main .container .forms .section-B .container-entrar .info,
+    main .container .forms .section-B .container-cadastrar .info {
+        width: 100%;
+        height: 40px;
+        font-size: 16px;
     }
 
     main .container .forms .section-C,
     main .container .forms .section-D {
         height: auto;
-        min-height: 0;
+        min-height: 100px;
     }
 
     main .container .forms .section-C .singin,
@@ -401,7 +387,7 @@ main {
     }
 
     main .container .forms .section-D .manter {
-        margin: 10px 0;
+        margin: 14px 0;
     }
 }
 
@@ -414,32 +400,9 @@ main {
         display: none;
     }
 
-    main .container .forms .section-B .container-cadastrar {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 10px;
-    }
-
-    main .container .forms .section-B .container-cadastrar .field:last-child {
-        grid-column: auto;
-    }
-
-    main .container .forms .section-D .singout {
-        margin-top: 8px;
-    }
-
-    main .container .forms .section-B .field {
-        margin-bottom: 0;
-    }
-
-    main .container .forms .section-B .field label {
-        margin-left: 4px;
-        font-size: 14px;
-    }
-
-    main .container .forms .section-B .field .info {
-        min-height: 44px;
-        padding: 10px 12px;
-        font-size: 15px;
+    main .container .forms .section-B .container-entrar .info,
+    main .container .forms .section-B .container-cadastrar .info {
+        padding: 4px 12px;
     }
 
     main .container .forms .section-C .link,
