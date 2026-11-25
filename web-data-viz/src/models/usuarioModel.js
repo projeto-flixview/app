@@ -22,7 +22,17 @@ function cadastrar(nome, email, senha, idCargo) {
     return database.executar(instrucaoSql, [nome, email, senha, idCargo]);
 }
 
+function verificarPermissao(idUsuario) {
+    var instrucaoSql = `
+        SELECT idUsuario, nome, email, idCargo
+        FROM usuario
+        WHERE idUsuario = ?;
+    `;
+    return database.executar(instrucaoSql, [idUsuario]);
+}
+
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    verificarPermissao
 };

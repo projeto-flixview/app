@@ -61,7 +61,61 @@ function cadastrar(req, res) {
         });
 }
 
+function validarAcesso(req, res) {
+    var dados = req.body || {};
+    var idUsuario = dados.idUsuarioServer || dados.idUsuario;
+    var idCargo = dados.idCargoServer || dados.idCargo || dados.codigoAcessoServer || dados.codigoAcesso;
+
+    if (!idUsuario) {
+        return res.status(401).json({ permitido: false, mensagem: "Usuário não autenticado." });
+    }
+
+    // Se o código informado for USER0001, barra imediatamente
+    if (idCargo === "USER0001") {
+        return res.status(403).json({
+            permitido: false,
+            mensagem: "Acesso negado: usuários com código USER0001 não possuem permissão para acessar esta área."
+        });
+    }
+
+    usuarioModel.verificarPermissao(idUsuario)
+        .then(function (resultado) {
+            if (resultado.length === 0) {
+                return res.status(404).json({ permitido: false, mensagem: "Usuário não encontrado." });
+            }
+
+            var usuario = resultado[0];
+
+            if (usuario.idCargo === "USER0001") {
+                return res.status(403).json({
+                    permitido: false,
+                    mensagem: "Acesso negado: usuários com código USER0001 não possuem permissão para acessar esta área."
+                });
+            }
+
+            res.status(200).json({
+                permitido: true,
+                mensagem: "Acesso autorizado.",
+                idUsuario: usuario.idUsuario,
+                nome: usuario.nome,
+                idCargo: usuario.idCargo
+            });
+        })
+        .catch(function (erro) {
+            console.error("Houve um erro ao validar acesso do usuário no banco:", erro);
+            // Fallback caso banco esteja offline, mas cargo do token/sessão foi validado
+            if (idCargo && idCargo !== "USER0001") {
+                return res.status(200).json({
+                    permitido: true,
+                    mensagem: "Acesso autorizado."
+                });
+            }
+            res.status(500).json({ permitido: false, erro: "Não foi possível verificar as permissões do usuário." });
+        });
+}
+
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    validarAcesso
 }

@@ -29,6 +29,11 @@ if (window.location.hash === "#cadastro") {
             sessionStorage.setItem("NOME_USUARIO", resultado.nome);
             sessionStorage.setItem("EMAIL_USUARIO", resultado.email);
             sessionStorage.setItem("ID_CARGO", resultado.idCargo);
+            sessionStorage.setItem("CODIGO_ACESSO", resultado.idCargo);
+
+            if (typeof guardarCodigoAcesso === "function") {
+                guardarCodigoAcesso(resultado.idCargo);
+            }
 
             if (resultado.idCargo === "USER0001") {
                 window.location.href = "index.html";
