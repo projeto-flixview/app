@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS flixview;
--- DROP DATABASE flixview;
+--  DROP DATABASE flixview;
 USE flixview;
 
 CREATE TABLE cargo (
@@ -60,9 +60,55 @@ CREATE TABLE titulo (
     modified_by VARCHAR(50)
 );
 
+CREATE TABLE diretores (
+	idDiretor INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100)
+);
+
+CREATE TABLE titulo_diretores (
+    fkTitulo INT,
+    fkDiretor INT,
+    PRIMARY KEY (fkTitulo, fkDiretor),
+    CONSTRAINT fk_titulo_diretor_titulo
+        FOREIGN KEY (fkTitulo)
+        REFERENCES titulo(idTitulo),
+    CONSTRAINT fk_titulo_diretor_diretor
+        FOREIGN KEY (fkDiretor)
+        REFERENCES diretores(idDiretor)
+);
+
+CREATE TABLE elenco (
+	idAtor INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100)
+);
+
+CREATE TABLE titulo_elenco (
+    fkTitulo INT,
+    fkElenco INT,
+    PRIMARY KEY (fkTitulo, fkElenco),
+    CONSTRAINT fk_titulo_elenco_titulo
+        FOREIGN KEY (fkTitulo)
+        REFERENCES titulo(idTitulo),
+    CONSTRAINT fk_titulo_elenco_elenco
+        FOREIGN KEY (fkElenco)
+        REFERENCES elenco(idAtor)
+);
+
 CREATE TABLE genero (
     idGenero INT PRIMARY KEY,
     nome VARCHAR(100)
+);
+
+CREATE TABLE titulo_genero (
+    fkTitulo INT,
+    fkGenero INT,
+    PRIMARY KEY (fkTitulo, fkGenero),
+    CONSTRAINT fk_titulo_genero_titulo
+        FOREIGN KEY (fkTitulo)
+        REFERENCES titulo(idTitulo),
+    CONSTRAINT fk_titulo_genero_genero
+        FOREIGN KEY (fkGenero)
+        REFERENCES genero(idGenero)
 );
 
 INSERT INTO genero (idGenero, nome) VALUES
@@ -111,18 +157,6 @@ CREATE TABLE review (
     CONSTRAINT fk_review_titulo
         FOREIGN KEY (fkTitulo)
         REFERENCES titulo(idTitulo)
-);
-
-CREATE TABLE titulo_genero (
-    fkTitulo INT,
-    fkGenero INT,
-    PRIMARY KEY (fkTitulo, fkGenero),
-    CONSTRAINT fk_titulo_genero_titulo
-        FOREIGN KEY (fkTitulo)
-        REFERENCES titulo(idTitulo),
-    CONSTRAINT fk_titulo_genero_genero
-        FOREIGN KEY (fkGenero)
-        REFERENCES genero(idGenero)
 );
 
 CREATE TABLE tipoLog (
