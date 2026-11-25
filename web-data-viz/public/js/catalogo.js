@@ -147,7 +147,7 @@ function cardHtml(item) {
     }
 
     return `
-        <a class="card" href="detalhes.html?id=${encodeURIComponent(item.idTitulo)}">
+        <a class="card" href="detalhes-titulo.html?id=${encodeURIComponent(item.idTitulo)}">
 
             <div class="poster">
 

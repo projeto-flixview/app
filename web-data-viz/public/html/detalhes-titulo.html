@@ -13,10 +13,10 @@
 <body>
 
 <header class="top">
-    <div class="logo"><span class="flix">FLIX</span><span class="view">VIEW</span></div>
+    <div class="logo"><a href="index.html"><span class="flix">FLIX</span><span class="view">VIEW</span></a></div>
     <nav class="primary">
-        <a href="home.html">Home</a>
-        <a href="./reviews.html">Reviews</a>
+        <a href="index.html">Home</a>
+        <a href="./dashboard_review.html">Reviews</a>
         <a href="./catalogo.html">Títulos</a>
     </nav>
     <div class="search-row header-search">
@@ -26,10 +26,10 @@
             <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
         </svg>
     </div>
-    <a href="./perfil.html">
+    <a href="./area-usuario.html">
     <div class="avatar">
     </div>
-    </div>
+    </a>
 </header>
 
 <main class="detalhes">
@@ -64,7 +64,7 @@
     <div class="reviews-bloco">
         <div class="reviews-titulo">
             <h2>Reviews</h2>
-            <a href="#">Ver todas →</a>
+            <a href="./dashboard_review.html">Ver todas →</a>
         </div>
 
         <div class="review-card">
@@ -204,7 +204,7 @@
         }
 
         return (
-            '<a class="card" href="detalhes.html?id=' + item.id + '">' +
+            '<a class="card" href="detalhes-titulo.html?id=' + item.id + '">' +
             '<div class="poster">' +
             miolo +
             '<div class="card-title">' + item.nome + '</div>' +
