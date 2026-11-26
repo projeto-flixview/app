@@ -2,11 +2,11 @@ var database = require("../database/config");
 
 function autenticar(email, senha) {
     var instrucaoSql = `
-        SELECT idUsuario, nome, email, idCargo
+        SELECT idUsuario, nome, email, senha, idCargo
         FROM usuario
-        WHERE email = ? AND senha = ?;
+        WHERE email = ?;
     `;
-    return database.executar(instrucaoSql, [email, senha]);
+    return database.executar(instrucaoSql, [email]);
 }
 
 function cadastrar(nome, email, senha, idCargo) {
@@ -31,8 +31,14 @@ function verificarPermissao(idUsuario) {
     return database.executar(instrucaoSql, [idUsuario]);
 }
 
+function atualizarSenha(idUsuario, senhaHash) {
+    var instrucaoSql = "UPDATE usuario SET senha = ? WHERE idUsuario = ?;";
+    return database.executar(instrucaoSql, [senhaHash, idUsuario]);
+}
+
 module.exports = {
     autenticar,
     cadastrar,
-    verificarPermissao
+    verificarPermissao,
+    atualizarSenha
 };

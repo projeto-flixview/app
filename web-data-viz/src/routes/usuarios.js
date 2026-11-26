@@ -15,4 +15,16 @@ router.post("/validar-acesso", function (req, res) {
     usuarioController.validarAcesso(req, res);
 });
 
+router.post("/solicitar-recuperacao", function (req, res) {
+    usuarioController.solicitarRecuperacao(req, res);
+});
+
+router.post("/redefinir-senha", function (req, res) {
+    usuarioController.redefinirSenha(req, res);
+});
+
+router.post("/validar-token-recuperacao", function (req, res) {
+    usuarioController.validarTokenRecuperacao(req, res);
+});
+
 module.exports = router;

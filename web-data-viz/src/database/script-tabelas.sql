@@ -7,20 +7,11 @@ CREATE TABLE cargo (
     nomeCargo VARCHAR(50)
 );
 
-INSERT INTO cargo (idCargo, nomeCargo) VALUES
-('USER0001', 'Usuário Comum'),
-('DATA0001', 'Analista de Dados de Conteúdo'),
-('ADMIN001', 'Administrador');
-
-CREATE TABLE usuario ( 
-    idUsuario INT PRIMARY KEY AUTO_INCREMENT, 
-    nome VARCHAR(100) NOT NULL, 
-    email VARCHAR(150) NULL, 
-    senha VARCHAR(50) NULL, 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(50),
-    modified_at TIMESTAMP,
-    modified_by VARCHAR(50),
+CREATE TABLE usuario (
+    idUsuario INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    senha VARCHAR(150) NOT NULL,
     idCargo CHAR(8) NOT NULL,
     CONSTRAINT fk_cargo_usuario
         FOREIGN KEY (idCargo)
@@ -28,14 +19,15 @@ CREATE TABLE usuario (
 );
 
 CREATE TABLE configSlack (
-	idConfig INT PRIMARY KEY AUTO_INCREMENT,
+    idConfig INT PRIMARY KEY AUTO_INCREMENT,
     slack BOOL,
     telegram BOOL,
     teams BOOL,
     javaMail BOOL,
     idUser INT,
     CONSTRAINT fk_usuario_configSlack
-    FOREIGN KEY (idUser) REFERENCES usuario(idUsuario)
+        FOREIGN KEY (idUser)
+        REFERENCES usuario(idUsuario)
 );
 
 CREATE TABLE titulo (
@@ -50,20 +42,87 @@ CREATE TABLE titulo (
     seasons INT,
     overview TEXT,
     popularity DECIMAL(10,2),
-    poster_path VARCHAR(300),    
+    poster_path VARCHAR(300),
     release_date DATE,
     vote_average DECIMAL(3,1),
-    vote_count INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(50),
-    modified_at TIMESTAMP,
-    modified_by VARCHAR(50)
+    vote_count INT
 );
 
 CREATE TABLE genero (
     idGenero INT PRIMARY KEY,
     nome VARCHAR(100)
 );
+
+CREATE TABLE review (
+    idReview INT PRIMARY KEY AUTO_INCREMENT,
+    author VARCHAR(100),
+    content VARCHAR(600),
+    rating VARCHAR(45),
+    fkTitulo INT,
+    CONSTRAINT fk_review_titulo
+        FOREIGN KEY (fkTitulo)
+        REFERENCES titulo(idTitulo)
+);
+
+CREATE TABLE titulo_genero (
+    fkTitulo INT,
+    fkGenero INT,
+    PRIMARY KEY (fkTitulo, fkGenero),
+    CONSTRAINT fk_titulo_genero_titulo
+        FOREIGN KEY (fkTitulo)
+        REFERENCES titulo(idTitulo),
+    CONSTRAINT fk_titulo_genero_genero
+        FOREIGN KEY (fkGenero)
+        REFERENCES genero(idGenero)
+);
+
+CREATE TABLE tipoLog (
+    idLog INT PRIMARY KEY AUTO_INCREMENT,
+    tipo VARCHAR(25)
+);
+
+CREATE TABLE log_Java (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    msg TEXT,
+    statusLog VARCHAR(25),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by VARCHAR(50),
+    source VARCHAR(50),
+    typeLog INT,
+    CONSTRAINT fk_log
+        FOREIGN KEY (typeLog)
+        REFERENCES tipoLog(idLog)
+);
+
+CREATE TABLE modificacoes (
+    idModificacao INT PRIMARY KEY AUTO_INCREMENT,
+    tabela VARCHAR(50) NOT NULL,
+    idRegistro INT NOT NULL,
+    tipoModificacao VARCHAR(20) NOT NULL,
+    dataModificacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    usuarioResponsavel VARCHAR(50),
+    descricao TEXT
+);
+
+CREATE TABLE recuperacaoSenha (
+    idRecuperacao INT PRIMARY KEY AUTO_INCREMENT,
+    fkUsuario INT NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    dataCriacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    dataExpiracao TIMESTAMP NOT NULL,
+    dataUtilizacao TIMESTAMP NULL,
+
+    CONSTRAINT fk_usuario_recuperacao
+        FOREIGN KEY (fkUsuario)
+        REFERENCES usuario(idUsuario),
+
+    UNIQUE (token)
+);
+
+INSERT INTO cargo (idCargo, nomeCargo) VALUES
+('USER0001', 'Usuário Comum'),
+('DATA0001', 'Analista de Dados de Conteúdo'),
+('ADMIN001', 'Administrador');
 
 INSERT INTO genero (idGenero, nome) VALUES
 (1, 'Thriller'),
@@ -94,58 +153,10 @@ INSERT INTO genero (idGenero, nome) VALUES
 (26, '10749'),
 (27, 'Talk');
 
-CREATE TABLE review (
-    idReview INT PRIMARY KEY AUTO_INCREMENT,
-    author VARCHAR(100),
-    content VARCHAR(600),
-    rating VARCHAR(45),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(50),
-    modified_at TIMESTAMP,
-    modified_by VARCHAR(50),
-    fkUsuario INT,
-    fkTitulo INT,
-    CONSTRAINT fk_review_usuario
-        FOREIGN KEY (fkUsuario)
-        REFERENCES usuario(idUsuario),
-    CONSTRAINT fk_review_titulo
-        FOREIGN KEY (fkTitulo)
-        REFERENCES titulo(idTitulo)
-);
-
-CREATE TABLE titulo_genero (
-    fkTitulo INT,
-    fkGenero INT,
-    PRIMARY KEY (fkTitulo, fkGenero),
-    CONSTRAINT fk_titulo_genero_titulo
-        FOREIGN KEY (fkTitulo)
-        REFERENCES titulo(idTitulo),
-    CONSTRAINT fk_titulo_genero_genero
-        FOREIGN KEY (fkGenero)
-        REFERENCES genero(idGenero)
-);
-
-CREATE TABLE tipoLog (
-	idLog INT PRIMARY KEY auto_increment,
-    tipo VARCHAR(25)
-);
-
 INSERT INTO tipoLog (tipo) VALUES
 	('Sucesso'),
 	('Leitura'),
 	('Inserção'),
 	('Erro'),
 	('Info');
-
-CREATE TABLE log_Java (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-    msg TEXT,
-    statusLog VARCHAR(25),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_by VARCHAR(50),
-    source VARCHAR(50),
-    typeLog INT,
-    CONSTRAINT fk_log
-    FOREIGN KEY (typeLog) REFERENCES tipoLog(idLog)
-);
 

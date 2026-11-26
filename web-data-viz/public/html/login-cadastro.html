@@ -1,117 +1,302 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrar</title>
+
+    <title>Entrar | FlixView</title>
+
     <link rel="stylesheet" href="../css/login-cadastro.css">
 </head>
+
 <body>
+
     <header>
         <div class="logo">
             <a href="./index.html">
-                <img src="../assets/imgs/Logo FlixView.png" alt="FlixView" class="logo">
+                <img
+                    src="../assets/imgs/Logo FlixView.png"
+                    alt="FlixView"
+                >
             </a>
         </div>
     </header>
+
     <main>
+
         <div class="container">
+
+            <!-- Banner lateral -->
             <div class="section-A">
-                <img src="../assets/imgs/bannerLog.png" alt="" class="banner">
+                <img
+                    src="../assets/imgs/bannerLog.png"
+                    alt=""
+                    class="banner"
+                >
             </div>
-             <div class="forms">
+
+            <!-- Área de autenticação -->
+            <div class="forms">
+
+                <!-- Navegação entre login e cadastro -->
                 <div class="nav">
-                    <button class="acess ativo" id="btn-entrar" onclick="exibirEntrar()">Entrar</button>
-                    <button class="acess" id="btn-cadastrar" onclick="exibirCadastrar()">Cadastrar</button>
+
+                    <button
+                        type="button"
+                        class="acess ativo"
+                        id="btn-entrar"
+                        onclick="exibirEntrar()"
+                    >
+                        Entrar
+                    </button>
+
+                    <button
+                        type="button"
+                        class="acess"
+                        id="btn-cadastrar"
+                        onclick="exibirCadastrar()"
+                    >
+                        Cadastrar
+                    </button>
+
                 </div>
+
                 <div class="section-B">
-                    <div class="container-entrar" style="display:flex;">
-                   <label for="login_email" class="rotulo">Email</label>
-                   <input type="email" placeholder="voce@exemplo.com" class="info" id="login_email">
 
-                   <label for="login_senha" class="rotulo">Senha</label>
-                   <input type="password" placeholder="Digite sua senha" class="info" id="login_senha">
-                    </div>
+                    <!-- Formulário de login -->
+                    <form
+                        class="container-entrar"
+                        id="form-entrar"
+                        style="display: flex;"
+                        onsubmit="autenticarUsuario(); return false;"
+                    >
 
-                    <form class="container-cadastrar" id="form-cadastrar" style="display: none;" onsubmit="cadastrarUsuario(event)">
-                   <label for="usuario_nome" class="rotulo">Nome</label>
-                   <input type="text" placeholder="Como você quer ser chamado" class="info" id="usuario_nome" autocomplete="name" required>
-                   <label for="cadastro_email" class="rotulo">Email</label>
-                   <input type="email" placeholder="voce@exemplo.com" class="info" id="cadastro_email" autocomplete="email" required>
+                        <label for="login_email" class="rotulo">
+                            Email
+                        </label>
 
-                   <label for="cadastro_senha" class="rotulo">Senha</label>
-                   <input type="password" placeholder="Crie uma senha" class="info" id="cadastro_senha" autocomplete="new-password" required>
-                   <p class="descricao">*Mínimo de 5 caracteres, com 1 letra maiúscula, 1 minúscula, 1 número e 1 caractere especial</p>
+                        <input
+                            type="email"
+                            placeholder="voce@exemplo.com"
+                            class="info"
+                            id="login_email"
+                            autocomplete="email"
+                            required
+                        >
 
-                   <label for="usuario_senha_confirmacao" class="rotulo">Confirme a Senha</label>
-                   <input type="password" placeholder="Repita a senha" class="info" id="usuario_senha_confirmacao" autocomplete="new-password" required>
+                        <label for="login_senha" class="rotulo">
+                            Senha
+                        </label>
 
-                   <label for="usuario_codigo" class="rotulo">Código de Acesso</label>
-                   <input type="text" placeholder="Digite seu código de acesso" class="info" id="usuario_codigo"> 
-                   <p class="descricao">Consulte seu contrato para encontrar o código. Se você não tem um, marque a opção abaixo.</p>
+                        <input
+                            type="password"
+                            placeholder="Digite sua senha"
+                            class="info"
+                            id="login_senha"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <div class="section-C" style="display: flex;">
+
+                            <button
+                                class="singin"
+                                type="submit"
+                            >
+                                Entrar
+                            </button>
+
+                            <a href="./recuperacao-senha.html" class="link">
+                                Esqueceu a senha?
+                            </a>
+
+                        </div>
+
                     </form>
 
-                <div class="section-C" style="display: flex;">
-                    <button class="singin" onclick="autenticarUsuario()" type="button">Entrar</button>
-                    <a href="./suporte.html" class="link">Esqueceu a senha?</a>
-                </div>
+                    <!-- Formulário de cadastro -->
+                    <form
+                        class="container-cadastrar"
+                        id="form-cadastrar"
+                        style="display: none;"
+                        onsubmit="cadastrarUsuario(event); return false;"
+                    >
 
-                <div class="section-D" style="display: none;">
-                    <div class="manter">
-                        <input type="checkbox" id="codigo" checked class="check" onchange="bloquearCodigo()">
-                        <label for="codigo" class="link">Não possuo um código de acesso</label>  
+                        <label for="usuario_nome" class="rotulo">
+                            Nome
+                        </label>
+
+                        <input
+                            type="text"
+                            placeholder="Como você quer ser chamado"
+                            class="info"
+                            id="usuario_nome"
+                            autocomplete="name"
+                            required
+                        >
+
+                        <label for="cadastro_email" class="rotulo">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            placeholder="voce@exemplo.com"
+                            class="info"
+                            id="cadastro_email"
+                            autocomplete="email"
+                            required
+                        >
+
+                        <label for="cadastro_senha" class="rotulo">
+                            Senha
+                        </label>
+
+                        <input
+                            type="password"
+                            placeholder="Crie uma senha"
+                            class="info"
+                            id="cadastro_senha"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                        <p class="descricao">
+                            *Mínimo de 5 caracteres, com 1 letra maiúscula,
+                            1 minúscula, 1 número e 1 caractere especial.
+                        </p>
+
+                        <label for="usuario_senha_confirmacao" class="rotulo">
+                            Confirme a Senha
+                        </label>
+
+                        <input
+                            type="password"
+                            placeholder="Repita a senha"
+                            class="info"
+                            id="usuario_senha_confirmacao"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                        <label for="usuario_codigo" class="rotulo">
+                            Código de Acesso
+                        </label>
+
+                        <input
+                            type="text"
+                            placeholder="Digite seu código de acesso"
+                            class="info"
+                            id="usuario_codigo"
+                            required
+                        >
+
+                        <p class="descricao">
+                            Consulte seu contrato para encontrar o código.
+                            Se você não tem um, marque a opção abaixo.
+                        </p>
+
+                    </form>
+
+                    <!-- Opções de cadastro -->
+                    <div class="section-D" style="display: none;">
+
+                        <div class="manter">
+
+                            <input
+                                type="checkbox"
+                                id="codigo"
+                                class="check"
+                                onchange="bloquearCodigo()"
+                            >
+
+                            <label for="codigo" class="link">
+                                Não possuo um código de acesso
+                            </label>
+
+                        </div>
+
+                        <button
+                            class="singout"
+                            type="submit"
+                            form="form-cadastrar"
+                        >
+                            Cadastrar
+                        </button>
+
                     </div>
 
-                    <button class="singout" type="submit" form="form-cadastrar">Cadastrar</button>
                 </div>
 
-                </div>
             </div>
+
         </div>
+
     </main>
 
     <div class="alerta" id="alerta">
+
         <span id="alerta-texto"></span>
-        <button type="button" onclick="fecharAlerta()">&times;</button>
+
+        <button
+            type="button"
+            onclick="fecharAlerta()"
+            aria-label="Fechar alerta"
+        >
+            &times;
+        </button>
+
     </div>
+
+    <script>
+
+        function exibirEntrar() {
+
+            document.querySelector(".container-entrar").style.display = "flex";
+            document.querySelector(".section-C").style.display = "flex";
+
+            document.querySelector(".container-cadastrar").style.display = "none";
+            document.querySelector(".section-D").style.display = "none";
+
+            document.getElementById("btn-entrar").classList.add("ativo");
+            document.getElementById("btn-cadastrar").classList.remove("ativo");
+
+        }
+
+        function exibirCadastrar() {
+
+            document.querySelector(".container-cadastrar").style.display = "flex";
+            document.querySelector(".section-D").style.display = "flex";
+
+            document.querySelector(".container-entrar").style.display = "none";
+            document.querySelector(".section-C").style.display = "none";
+
+            document.getElementById("btn-cadastrar").classList.add("ativo");
+            document.getElementById("btn-entrar").classList.remove("ativo");
+
+        }
+
+        function bloquearCodigo() {
+
+            const semCodigo = document.getElementById("codigo").checked;
+            const campoCodigo = document.getElementById("usuario_codigo");
+
+            campoCodigo.disabled = semCodigo;
+
+            if (semCodigo) {
+                campoCodigo.value = "";
+            }
+
+        }
+
+        bloquearCodigo();
+
+    </script>
+
+    <script src="../js/sessao.js"></script>
+    <script src="../js/login-cadastro.js"></script>
+
 </body>
 </html>
-<script>
-    function exibirEntrar() {
-    document.querySelector(".container-entrar").style.display = "flex";
-    document.querySelector(".section-C").style.display = "flex";
-
-    document.querySelector(".container-cadastrar").style.display = "none";
-    document.querySelector(".section-D").style.display = "none";
-
-    document.getElementById("btn-entrar").classList.add("ativo");
-    document.getElementById("btn-cadastrar").classList.remove("ativo");
-}
-
-function exibirCadastrar() {
-    document.querySelector(".container-cadastrar").style.display = "flex";
-    document.querySelector(".section-D").style.display = "flex";
-
-    document.querySelector(".container-entrar").style.display = "none";
-    document.querySelector(".section-C").style.display = "none";
-
-    document.getElementById("btn-cadastrar").classList.add("ativo");
-    document.getElementById("btn-entrar").classList.remove("ativo");
-}
-
-    function bloquearCodigo() {
-        const semCodigo = document.getElementById("codigo").checked;
-        const campoCodigo = document.getElementById("usuario_codigo");
-
-        campoCodigo.disabled = semCodigo;
-
-        if (semCodigo) {
-            campoCodigo.value = "";
-        }
-    }
-
-    document.getElementById('codigo').checked = false;
-
-</script>
-<script src="../js/sessao.js"></script>
-<script src="../js/login-cadastro.js"></script>

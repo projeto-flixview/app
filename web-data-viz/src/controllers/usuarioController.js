@@ -1,4 +1,6 @@
 var usuarioModel = require("../models/usuarioModel");
+var senhaService = require("../services/senhaService");
+var recuperacaoSenhaService = require("../services/recuperacaoSenhaService");
 
 function autenticar(req, res) {
     var dados = req.body || {};
@@ -10,16 +12,25 @@ function autenticar(req, res) {
     }
 
     usuarioModel.autenticar(email, senha)
-        .then(function (usuarios) {
-            if (usuarios.length === 0) {
-                return res.status(401).json({ erro: "Email ou senha incorretos." });
+        .then(async function (usuarios) {
+            if (usuarios.length === 0) return res.status(401).json({ erro: "Email ou senha incorretos." });
+            var usuario = usuarios[0];
+            var senhaValida;
+            if (usuario.senha.indexOf("scrypt$") === 0) {
+                senhaValida = await senhaService.verificar(senha, usuario.senha);
+            } else {
+                senhaValida = senha === usuario.senha;
+                if (senhaValida) {
+                    await usuarioModel.atualizarSenha(usuario.idUsuario, await senhaService.gerarHash(senha));
+                }
             }
+            if (!senhaValida) return res.status(401).json({ erro: "Email ou senha incorretos." });
 
             res.status(200).json({
-                idUsuario: usuarios[0].idUsuario,
-                nome: usuarios[0].nome,
-                email: usuarios[0].email,
-                idCargo: usuarios[0].idCargo
+                idUsuario: usuario.idUsuario,
+                nome: usuario.nome,
+                email: usuario.email,
+                idCargo: usuario.idCargo
             });
         })
         .catch(function (erro) {
@@ -48,7 +59,9 @@ function cadastrar(req, res) {
         return res.status(400).json({ erro: "Informe um email válido." });
     }
 
-    usuarioModel.cadastrar(nome, email, senha, codigo)
+    senhaService.gerarHash(senha).then(function (senhaHash) {
+        return usuarioModel.cadastrar(nome, email, senhaHash, codigo);
+    })
         .then(function (resultado) {
             res.status(201).json({
                 idUsuario: resultado.insertId,
@@ -59,6 +72,40 @@ function cadastrar(req, res) {
             console.error("Houve um erro ao realizar o cadastro:", erro);
             res.status(500).json({ erro: "Não foi possível salvar o cadastro no banco de dados." });
         });
+}
+
+async function solicitarRecuperacao(req, res) {
+    var email = req.body && req.body.email;
+    try {
+        var mensagem = await recuperacaoSenhaService.solicitar(email);
+        return res.status(202).json({ mensagem: mensagem });
+    } catch (erro) {
+        if (erro.status === 400) return res.status(400).json({ erro: erro.message });
+        console.error("Falha ao processar solicitação de recuperação de senha:", erro.message);
+        return res.status(500).json({ erro: "Não foi possível processar a solicitação agora." });
+    }
+}
+
+async function redefinirSenha(req, res) {
+    try {
+        await recuperacaoSenhaService.redefinir(req.body || {});
+        return res.status(200).json({ mensagem: "Senha redefinida com sucesso." });
+    } catch (erro) {
+        if (erro.status === 400) return res.status(400).json({ erro: erro.message });
+        console.error("Falha ao redefinir senha:", erro.message);
+        return res.status(500).json({ erro: "Não foi possível redefinir a senha agora." });
+    }
+}
+
+async function validarTokenRecuperacao(req, res) {
+    try {
+        var valido = await recuperacaoSenhaService.validarToken(req.body && req.body.token);
+        if (!valido) return res.status(400).json({ valido: false, erro: "Link inválido, expirado ou já utilizado. Solicite uma nova recuperação." });
+        return res.status(200).json({ valido: true });
+    } catch (erro) {
+        console.error("Falha ao validar token de recuperação:", erro.message);
+        return res.status(500).json({ valido: false, erro: "Não foi possível validar o link agora." });
+    }
 }
 
 function validarAcesso(req, res) {
@@ -117,5 +164,8 @@ function validarAcesso(req, res) {
 module.exports = {
     autenticar,
     cadastrar,
-    validarAcesso
+    validarAcesso,
+    solicitarRecuperacao,
+    redefinirSenha,
+    validarTokenRecuperacao
 }

@@ -116,3 +116,9 @@ curl -X POST http://localhost:8080/titulos/sincronizar \
 O exemplo usa a porta `8080` configurada atualmente em `.env`; ajuste-a se `APP_PORT` tiver outro valor. O campo `page` é opcional (padrão `1`). O backend consulta os endpoints documentados [`/3/movie/popular`](https://developer.themoviedb.org/reference/movie-popular-list) e [`/3/genre/movie/list`](https://developer.themoviedb.org/reference/genre-movie-list), autentica com o Bearer token e sincroniza `titulo`, `genero` e `titulo_genero` com consultas parametrizadas. Títulos já existentes são atualizados pelo `idTMDB` e as relações de gênero são substituídas pelas retornadas pela API. Nenhuma tabela precisa ser criada ou alterada.
 
 O endpoint responde com a página e as quantidades processadas; erros de configuração, da API ou do banco são retornados como JSON. A API exige um Read Access Token da TMDB e o MySQL precisa estar acessível com credenciais válidas para testar a persistência.
+
+## Recuperação de senha
+
+Configure o envio SMTP no `.env` usando `.env.example` como referência: `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD` e `SMTP_FROM`. `APP_BASE_URL` deve apontar para a origem pública do FlixView, sem barra final. Use as credenciais fornecidas pelo provedor SMTP; nenhuma credencial é incluída no projeto. Após preencher as variáveis, instale a dependência declarada executando `npm install`.
+
+O link de recuperação expira em 30 minutos. A tabela `recuperacaoSenha` já existe em `src/database/script-tabelas.sql`; a coluna `token` armazena SHA-256 do token e nunca seu valor original. Não é necessária alteração do schema para uma instalação que já tenha essa tabela. Senhas novas e redefinidas usam scrypt; senhas antigas em texto puro são convertidas para scrypt no primeiro login bem-sucedido.
