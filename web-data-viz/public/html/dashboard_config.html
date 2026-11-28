@@ -31,34 +31,39 @@
             <input type="text" aria-label="Pesquisar" placeholder="🔍︎" />
         </div>
 
-    <nav class="menu">
+        <nav class="menu">
 
-    <a href="./dashboard _inicio.html" class="menu-item menu-dashboard">
-        <span class="menu-icon"></span>
-        <span>Dashboard</span>
-    </a>
+            <a href="./dashboard _inicio.html" class="menu-item menu-dashboard">
+                <span class="menu-icon"></span>
+                <span>Dashboard</span>
+            </a>
 
-    <a href="./dashboard_insights.html" class="menu-item menu-insights">
-        <span class="menu-icon"></span>
-        <span>Insights</span>
-    </a>
+            <a href="./dashboard_insights.html" class="menu-item menu-insights">
+                <span class="menu-icon"></span>
+                <span>Insights</span>
+            </a>
 
-    <a href="./dashboard_desempenho.html" class="menu-item menu-desempenho">
-        <span class="menu-icon"></span>
-        <span>Desempenho de Catálogo</span>
-    </a>
+            <a href="./dashboard_desempenho.html" class="menu-item menu-desempenho">
+                <span class="menu-icon"></span>
+                <span>Desempenho de Catálogo</span>
+            </a>
 
-    <a href="./dashboard_review.html" class="menu-item menu-reviews">
-        <span class="menu-icon"></span>
-        <span>Reviews</span>
-    </a>
+            <a href="./dashboard_review.html" class="menu-item menu-reviews">
+                <span class="menu-icon"></span>
+                <span>Reviews</span>
+            </a>
 
-    <a href="./dashboard_config.html" class="menu-item menu-config">
-        <span class="menu-icon"></span>
-        <span>Configurações</span>
-    </a>
+            <a href="./dashboard_config.html" class="menu-item menu-config">
+                <span class="menu-icon"></span>
+                <span>Minha conta</span>
+            </a>
 
-</nav>
+            <a href="" class="menu-item menu-notific">
+                <span class="menu-icon"></span>
+                <span>Notificações</span>
+            </a>
+
+        </nav>
     </aside>
 
     <main class="main-content" id="mainContent">
@@ -90,14 +95,15 @@
                 <span class="alterarTitulo">Alterar senha</span>
 
                 <div class="inputsClass">
-                    <input type="password" id="novaSenha" placeholder="Nova Senha">
-                    <button onclick="alterTypeB(this)" class="botao-ver">⌣</button>
+                    <input type="text" id="novaSenha" placeholder="Nova Senha">
+                    <button onclick="alterTypeB(this)" class="botao-ver">👁</button>
                 </div>
 
                 <div class="inputsClass">
-                    <input type="password" id="confSenha" placeholder="Confirme a Senha">
-                    <button onclick="alterTypeA(this)" class="botao-ver">⌣</button>
+                    <input type="text" id="confSenha" placeholder="Confirme a Senha">
+                    <button onclick="alterTypeA(this)" class="botao-ver">👁</button>
                 </div>
+
             </div>
 
             <button onclick="alterar()" class="botao">Alterar</button>
@@ -119,26 +125,26 @@
     const novaSenha = document.getElementById('novaSenha');
 
     function alterTypeB(botao) {
-    if (novaSenha.type === 'password') {
-        novaSenha.type = 'text';
-        botao.textContent = '👁'; 
-    } else {
-        novaSenha.type = 'password';
-        botao.textContent = '⌣'; 
+        if (novaSenha.type === 'password') {
+            novaSenha.type = 'text';
+            botao.textContent = '👁';
+        } else {
+            novaSenha.type = 'password';
+            botao.textContent = '⌣';
+        }
     }
-}
 
     const confSenha = document.getElementById('confSenha');
 
     function alterTypeA(botao) {
-    if (confSenha.type === 'password') {
-        confSenha.type = 'text';
-        botao.textContent = '👁'; 
-    } else {
-        confSenha.type = 'password';
-        botao.textContent = '⌣'; 
+        if (confSenha.type === 'password') {
+            confSenha.type = 'text';
+            botao.textContent = '👁';
+        } else {
+            confSenha.type = 'password';
+            botao.textContent = '⌣';
+        }
     }
-}
 </script>
 
 <script>
@@ -151,4 +157,3 @@
         mainContent.classList.toggle("expanded");
     });
 </script>
-

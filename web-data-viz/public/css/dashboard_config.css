@@ -166,13 +166,18 @@ body {
 }
 
 .menu-config .menu-icon {
+    background-image: url("../assets/icon/user.png");
+}
+
+.menu-notific .menu-icon {
     background-image: url("../assets/icon/engrenagem_branca.png");
 }
 
 .menu-dashboard:hover,
 .menu-insights:hover,
 .menu-desempenho:hover,
-.menu-config:hover {
+.menu-config:hover, 
+.menu-notific:hover{
     color: var(--vermelho-padrao);
 }
 
@@ -198,6 +203,11 @@ body {
 
 .menu-config:hover .menu-icon,
 .pagina-config .menu-config .menu-icon {
+    background-image: url("../assets/icon/user_vermelho.png");
+}
+
+.menu-notific:hover .menu-icon,
+.pagina-notific .menu-notific .menu-icon {
     background-image: url("../assets/icon/engrenagem_vermelha.png");
 }
 
@@ -227,12 +237,19 @@ body {
     background-image: url("../assets/icon/catalogo_vermelho.png");
 }
 
-
 .pagina-config .menu-config {
     color: var(--vermelho-padrao);
 }
 
 .pagina-config .menu-config .menu-icon {
+    background-image: url("../assets/icon/user_vermelho.png");
+}
+
+.pagina-notific .menu-notific{
+    color: var(--vermelho-padrao);
+}
+
+.pagina-notific .menu-notific .menu-icon {
     background-image: url("../assets/icon/engrenagem_vermelha.png");
 }
 
@@ -277,22 +294,33 @@ body {
 
 .inputsClass input {
     width: min(100%, 480px);
-    height: 22px;
-    background-color: transparent; 
+    height: 42px;
+    padding: 0 14px;
     border: 1px solid var(--cinza-borda);
-    border-radius: 2px;
-    padding: 15px;
-    color: var(--cinza-claro);
-    font-size: 15px;
+    border-radius: 6px;
     outline: none;
-    font-family: "Poppins", sans-serif;
+    background-color: #202020;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.inputsClass span{
-    font-family: "Poppins", sans-serif;
-    font-size: 17px;
-    font-weight: 400;
-    color: var(--cinza-claro);
+.inputsClass input::placeholder {
+    color: #858585;
+    opacity: 1;
+}
+
+.inputsClass input:focus {
+    border-color: #A6A6A6;
+    background-color: #242424;
+}
+
+.inputsClass span {
+    color: #E5E5E5;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
 }
 
 .alterarClass {
